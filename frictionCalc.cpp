@@ -67,20 +67,20 @@ int main() {
     std::cout << "\n" << LIGHT_GREEN << "Hello, user! This "
     << "program will calculate the frictional force based on\n"
     << "the entered static or kinetic coefficient of friction "
-    << "and normal force." << WHITE << "\n\n";
+    << "and normal force." << WHITE << "\n";
 
     // Construct a do..while loop.
     do {
         /* Ask the user for the friction type,
         which can be static or kinetic. */
-        std::cout << LIGHT_BLUE << "Enter the friction "
+        std::cout << LIGHT_BLUE << "\nEnter the friction "
         << "type (static or kinetic): " << WHITE;
-        /* Get the whole line of the user input and
-        store it in the friction type variable. */
+        /* Get the whole line of the friction type input
+        and store it in the friction type variable. */
         std::getline(std::cin, userFrictType);
 
-        /* Prepare the size of the lowercase string to
-        match the size of the user's actual string input. */
+        /* Prepare the size of the lowercase friction type to match
+        the size of the user's actual friction type input. */
         lowercaseUserFrictType.resize(userFrictType.size());
 
         /* Transform the user's string to lowercase
@@ -89,13 +89,94 @@ int main() {
         lowercaseUserFrictType.begin(), [](char scannedChar)
         { return std::tolower(scannedChar); });
 
-        /* Check if the user entered static or
-        kinetic, regardless of letter case. */
-        if ((userFrictType != "static") && (userFrictType != "kinetic")) {
-            /* Otherwise, notify the user that they entered an unrecognized
+        /* Check if the user did not enter static
+        or kinetic, regardless of letter case. */
+        if ((lowercaseUserFrictType != "static")
+        && (lowercaseUserFrictType != "kinetic")) {
+            /* Notify the user that they entered an unrecognized
             friction type and that they must try again. */
             std::cout << "\n" << LIGHT_RED << userFrictType << " is not a "
             << "recognized type of friction. Please try again." << WHITE << "\n";
+
         }
-    } while ((userFrictType != "static") && (userFrictType != "kinetic"));
+    /* Loop through the process while the
+    user has not entered static or kinetic. */
+    } while ((lowercaseUserFrictType != "static")
+    && (lowercaseUserFrictType != "kinetic"));
+
+    // Construct an infinite while loop.
+    while (true) {
+        // Ask the user for the friction coefficient.
+        std::cout << LIGHT_PURPLE << "\nEnter the "
+        << "coefficient of friction (dimensionless): "
+        << WHITE;
+        /* Get the whole line of the friction coefficient
+        input as a string and store it in the friction
+        coefficient string variable. */
+        std::getline(std::cin, userFrictCoefficientStr);
+
+        /* Try to validate and proceed with
+        the friction coefficient input. */
+        try {
+            /* Attempt to convert the entered
+            string into a float. */
+            userFrictCoefficientFloat =
+            std::stof(userFrictCoefficientStr);
+
+            /* Check if the friction coefficient
+            float is negative. Also, look for the
+            weird -0 exception and assume it is
+            negative for safety. */
+            if ((userFrictCoefficientFloat < 0)
+            || (userFrictCoefficientStr[0] == '-')) {
+                /* Notify the user that the coefficient
+                of friction cannot be negative and that
+                they must try again. */
+                std::cout << "\n" << LIGHT_RED
+                << "Coefficient of friction cannot be "
+                << "negative. Please try again."
+                << WHITE << "\n";
+            } else {
+                /* Otherwise, the friction
+                coefficient is non-negative. */
+                /* Nest another infinite while
+                loop for the successive input. */
+                while (true) {
+                    // Ask the user for the normal force.
+                    std::cout << LIGHT_CYAN << "\nEnter the "
+                    << "normal force (N): " << WHITE;
+                    /* Get the whole line of the normal force
+                    input as a string and store it in the normal
+                    force string variable. */
+                    std::getline(std::cin, userNormalForceStr);
+
+                    /* Try to validate and proceed
+                    with the normal force input. */
+                    try {
+                        /* Attempt to convert the entered
+                        string into a float. */
+                        userNormalForceFloat =
+                        std::stof(userNormalForceStr);
+
+                        /* Check if the normal force float is negative.
+                        Look for the same -0 exception for safety. */
+                        if ((userNormalForceFloat < 0)
+                        || (userNormalForceStr[0] == '-')) {
+                            /* Notify the user that the
+                            normal force cannot be negative
+                            and that they must try again. */
+                            std::cout << "\n" << LIGHT_RED
+                            << "Normal force cannot be "
+                            << "negative. Please try again."
+                            << WHITE << "\n";
+                        } else {
+                            /* Otherwise, the normal
+                            force is non-negative. */
+
+                        }
+                    } catch (std::invalid_argument) {}
+                }
+            }
+        } catch (std::invalid_argument) {}
+    } 
 }

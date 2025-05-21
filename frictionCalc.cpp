@@ -6,6 +6,9 @@
 kinetic friction given the friction type,
 coefficient of friction, and normal force. */
 
+/* Include the algorithm library for
+algorithmic functions. */
+#include <algorithm>
 /* Include the iostream library for
 input and output functionalities. */
 #include <iostream>
@@ -42,6 +45,24 @@ int main() {
     DARK_GRAY = "\033[1;30m",
     WHITE = "\033[0m";
 
+    /* Declare the string variables for the user friction
+    type and its corresponding lowercase type. */
+    std::string userFrictType, lowercaseUserFrictType;
+
+    /* Declare the string version of the
+    user's friction coefficient input. */
+    std::string userFrictCoefficientStr;
+    /* Declare the float version of the
+    user's friction coefficient input. */
+    float userFrictCoefficientFloat;
+
+    /* Declare the string version of
+    the user's normal force input. */
+    std::string userNormalForceStr;
+    /* Declare the float version of
+    the user's normal force input. */
+    float userNormalForceFloat;
+
     // Display the greeting message to the user.
     std::cout << "\n" << LIGHT_GREEN << "Hello, user! This "
     << "program will calculate the frictional force based on\n"
@@ -50,9 +71,6 @@ int main() {
 
     // Construct a do..while loop.
     do {
-        // Declare the variable for the user friction type.
-        std::string userFrictType;
-
         /* Ask the user for the friction type,
         which can be static or kinetic. */
         std::cout << LIGHT_BLUE << "Enter the friction "
@@ -61,9 +79,23 @@ int main() {
         store it in the friction type variable. */
         std::getline(std::cin, userFrictType);
 
-    } while (true);
+        /* Prepare the size of the lowercase string to
+        match the size of the user's actual string input. */
+        lowercaseUserFrictType.resize(userFrictType.size());
 
-    
+        /* Transform the user's string to lowercase
+        to disregard the possible letter cases. */
+        std::transform(userFrictType.begin(), userFrictType.end(),
+        lowercaseUserFrictType.begin(), [](char scannedChar)
+        { return std::tolower(scannedChar); });
 
-
+        /* Check if the user entered static or
+        kinetic, regardless of letter case. */
+        if ((userFrictType != "static") && (userFrictType != "kinetic")) {
+            /* Otherwise, notify the user that they entered an unrecognized
+            friction type and that they must try again. */
+            std::cout << "\n" << LIGHT_RED << userFrictType << " is not a "
+            << "recognized type of friction. Please try again." << WHITE << "\n";
+        }
+    } while ((userFrictType != "static") && (userFrictType != "kinetic"));
 }

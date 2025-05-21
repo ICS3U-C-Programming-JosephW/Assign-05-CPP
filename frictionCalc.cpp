@@ -34,7 +34,7 @@ float calculateFriction(float frictionCoefficient, float normalForce) {
 int main() {
     /* Create a constant map (associative array) for
     information based on the chosen friction type. */
-    std::map<std::string, std::string> FRICTION_INFO = {
+    const std::map<std::string, std::string> FRICTION_INFO = {
         {"static", "static friction (stiction)"},
         {"kinetic", "kinetic friction (dynamic friction)"},
     };
@@ -121,77 +121,116 @@ int main() {
         /* Try to validate and proceed with
         the friction coefficient input. */
         try {
+            /* Initialize a position tracker
+            of the size type for the user's
+            friction coefficient float. */
+            size_t frictCoefficientPosition = 0;
+
             /* Attempt to convert the entered
             string into a float. */
-            userFrictCoefficientFloat =
-            std::stof(userFrictCoefficientStr);
+            userFrictCoefficientFloat = std::stof
+            (userFrictCoefficientStr, &frictCoefficientPosition);
 
-            /* Check if the friction coefficient
-            float is negative. Also, look for the
-            weird -0 exception and assume it is
-            negative for safety. */
-            if ((userFrictCoefficientFloat < 0)
-            || (userFrictCoefficientStr[0] == '-')) {
-                /* Notify the user that the coefficient
-                of friction cannot be negative and that
-                they must try again. */
-                std::cout << "\n" << LIGHT_RED
-                << "Coefficient of friction cannot be "
-                << "negative. Please try again."
-                << WHITE << "\n";
-            } else {
-                /* Otherwise, the friction
-                coefficient is non-negative. */
-                /* Nest another infinite while
-                loop for the successive input. */
-                while (true) {
-                    // Ask the user for the normal force.
-                    std::cout << LIGHT_CYAN << "\nEnter the "
-                    << "normal force (N): " << WHITE;
-                    /* Get the whole line of the normal force
-                    input as a string and store it in the normal
-                    force string variable. */
-                    std::getline(std::cin, userNormalForceStr);
+            /* Check if size of the successful conversion
+            of std::stof() is equal to the raw size entered
+            by the user. */
+            if (frictCoefficientPosition ==
+            userFrictCoefficientStr.length()) {
+                /* Check if the friction coefficient
+                float is negative. Also, look for the
+                weird -0 exception and assume it is
+                negative for safety. */
+                if ((userFrictCoefficientFloat < 0)
+                || (userFrictCoefficientStr[0] == '-')) {
+                    /* Notify the user that the coefficient
+                    of friction cannot be negative and that
+                    they must try again. */
+                    std::cout << "\n" << LIGHT_RED
+                    << "Coefficient of friction cannot be "
+                    << "negative. Please try again."
+                    << WHITE << "\n";
+                } else {
+                    /* Otherwise, the friction
+                    coefficient is non-negative. */
+                    /* Nest another infinite while
+                    loop for the successive input. */
+                    while (true) {
+                        /* Initialize a position 
+                        tracker of the size type for
+                        the user's normal force float. */
+                        size_t normalFloatPosition = 0;
 
-                    /* Try to validate and proceed
-                    with the normal force input. */
-                    try {
-                        /* Attempt to convert the entered
-                        string into a float. */
-                        userNormalForceFloat =
-                        std::stof(userNormalForceStr);
+                        // Ask the user for the normal force.
+                        std::cout << LIGHT_CYAN << "\nEnter the "
+                        << "normal force (N): " << WHITE;
+                        /* Get the whole line of the normal force
+                        input as a string and store it in the normal
+                        force string variable. */
+                        std::getline(std::cin, userNormalForceStr);
 
-                        /* Check if the normal force float is negative.
-                        Look for the same -0 exception for safety. */
-                        if ((userNormalForceFloat < 0)
-                        || (userNormalForceStr[0] == '-')) {
-                            /* Notify the user that the
-                            normal force cannot be negative
-                            and that they must try again. */
+                        /* Try to validate and proceed
+                        with the normal force input. */
+                        try {
+                            /* Attempt to convert the entered string
+                            into a float and get the captured size. */
+                            userNormalForceFloat =
+                            std::stof(userNormalForceStr, &normalFloatPosition);
+
+                            /* Check if size of the successful conversion
+                            of std::stof() is equal to the raw size entered
+                            by the user. */
+                            if (normalFloatPosition ==
+                            userNormalForceStr.length()) {
+                                /* Check if the normal force float is negative.
+                                Look for the same -0 exception for safety. */
+                                if ((userNormalForceFloat < 0)
+                                || (userNormalForceStr[0] == '-')) {
+                                    /* Notify the user that the
+                                    normal force cannot be negative
+                                    and that they must try again. */
+                                    std::cout << "\n" << LIGHT_RED
+                                    << "Normal force cannot be "
+                                    << "negative. Please try again."
+                                    << WHITE << "\n";
+                                } else {
+                                    /* Otherwise, the normal
+                                    force is non-negative. */
+                                    /* Break out of the inner
+                                    infinite while loop. */
+                                    break;
+                                }
+                            } else {
+                                /* Otherwise, the user added additional
+                                characters to their number. */
+                                /* Notify the user that they entered an
+                                invalid number for the normal force. */
+                                std::cout << "\n" << LIGHT_RED
+                                << userNormalForceStr << " is "
+                                << "not a valid number. Please "
+                                << "try again." << WHITE << "\n";
+                            }
+                        /* Runs if std::stof() cannot convert the
+                        user's normal force input into a float. */
+                        } catch (std::invalid_argument) {
+                            /* Notify the user that they entered an
+                            invalid number for the normal force. */
                             std::cout << "\n" << LIGHT_RED
-                            << "Normal force cannot be "
-                            << "negative. Please try again."
-                            << WHITE << "\n";
-                        } else {
-                            /* Otherwise, the normal
-                            force is non-negative. */
-                            /* Break out of the inner
-                            infinite while loop. */
-                            break;
+                            << userNormalForceStr << " is "
+                            << "not a valid number. Please "
+                            << "try again." << WHITE << "\n";
                         }
-                    /* Runs if std::stof() cannot convert the
-                    user's normal force input into a float. */
-                    } catch (std::invalid_argument) {
-                        /* Notify the user that they entered an
-                        invalid number for the normal force. */
-                        std::cout << "\n" << LIGHT_RED
-                        << userNormalForceStr << " is "
-                        << "not a valid number. "
-                        << "Please try again." << WHITE;
                     }
                     // Break out of the outer infinite while loop.
                     break;
                 }
+            } else {
+                /* Otherwise, the user added additional
+                characters to their number. */
+                /* Notify the user that they entered an invalid
+                number for the friction coefficient. */
+                std::cout << "\n" << LIGHT_RED << userFrictCoefficientStr
+                << " is not a valid number. Please try again."
+                << WHITE << "\n";
             }
         /* Runs if std::stof() cannot convert the user's
         friction coefficient input into a float. */
@@ -199,18 +238,20 @@ int main() {
             /* Notify the user that they entered an invalid
             number for the friction coefficient. */
             std::cout << "\n" << LIGHT_RED << userFrictCoefficientStr
-            << " is not a valid number. Please try again." << WHITE;
+            << " is not a valid number. Please try again."
+            << WHITE << "\n";
         }
     }
     /* Determine the friction result by assigning it
     to the function with the validated user inputs. */
     float frictionResult = calculateFriction(
     userFrictCoefficientFloat, userNormalForceFloat);
+
     /* Finally, display the type of friction
     with information and the resulting value,
     rounded to two decimal places. */
     std::cout << "\n" << DARK_GRAY << "The resulting "
-    << FRICTION_INFO[lowercaseUserFrictType] << " is "
-    << std::setprecision(2) << std::setfill('0')
-    << frictionResult << " N." << WHITE;
+    << FRICTION_INFO.at(lowercaseUserFrictType) << " is "
+    << std::fixed << std::setprecision(2) << std::setfill('0')
+    << frictionResult << " N." << WHITE << "\n";
 }

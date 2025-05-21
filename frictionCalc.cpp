@@ -48,7 +48,21 @@ int main() {
     << "the entered static or kinetic coefficient of friction "
     << "and normal force." << WHITE << "\n\n";
 
-    // Construct an infinite while loop.
+    // Construct a do..while loop.
+    do {
+        // Declare the variable for the user friction type.
+        std::string userFrictType;
+
+        /* Ask the user for the friction type,
+        which can be static or kinetic. */
+        std::cout << LIGHT_BLUE << "Enter the friction "
+        << "type (static or kinetic): " << WHITE;
+        /* Get the whole line of the user input and
+        store it in the friction type variable. */
+        std::getline(std::cin, userFrictType);
+
+    } while (true);
+
     
 
 

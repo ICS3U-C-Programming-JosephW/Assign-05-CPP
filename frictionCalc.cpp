@@ -18,6 +18,9 @@ rounding numbers. */
 /* Include the map library for
 associative arrays. */
 #include <map>
+/* Include the string library to
+adhere to style guidelines. */
+#include <string>
 
 /* Define a function to calculate
 the resulting frictional force. */
@@ -95,9 +98,9 @@ int main() {
         && (lowercaseUserFrictType != "kinetic")) {
             /* Notify the user that they entered an unrecognized
             friction type and that they must try again. */
-            std::cout << "\n" << LIGHT_RED << userFrictType << " is not a "
-            << "recognized type of friction. Please try again." << WHITE << "\n";
-
+            std::cout << "\n" << LIGHT_RED << userFrictType
+            << " is not a " << "recognized type of friction. "
+            << "Please try again." << WHITE << "\n";
         }
     /* Loop through the process while the
     user has not entered static or kinetic. */
@@ -202,9 +205,7 @@ int main() {
     /* Determine the friction result by assigning it
     to the function with the validated user inputs. */
     float frictionResult = calculateFriction(
-        userFrictCoefficientFloat, userNormalForceFloat
-    );
-    
+    userFrictCoefficientFloat, userNormalForceFloat);
     /* Finally, display the type of friction
     with information and the resulting value,
     rounded to two decimal places. */

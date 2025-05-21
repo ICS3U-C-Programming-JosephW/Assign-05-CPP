@@ -9,9 +9,20 @@ coefficient of friction, and normal force. */
 /* Include the iostream library for
 input and output functionalities. */
 #include <iostream>
+/* Include the iomanip library for
+rounding numbers. */
+#include <iomanip>
 /* Include the map library for
 associative arrays. */
 #include <map>
+
+/* Define a function to calculate
+the resulting frictional force. */
+float calculateFriction(float frictionCoefficient, float normalForce) {
+    /* Simply return the product of the friction
+    coefficient and the normal force. */
+    return frictionCoefficient * normalForce;
+}
 
 // Runs the main function.
 int main() {

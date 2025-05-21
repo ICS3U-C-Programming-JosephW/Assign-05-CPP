@@ -172,11 +172,44 @@ int main() {
                         } else {
                             /* Otherwise, the normal
                             force is non-negative. */
-
+                            /* Break out of the inner
+                            infinite while loop. */
+                            break;
                         }
-                    } catch (std::invalid_argument) {}
+                    /* Runs if std::stof() cannot convert the
+                    user's normal force input into a float. */
+                    } catch (std::invalid_argument) {
+                        /* Notify the user that they entered an
+                        invalid number for the normal force. */
+                        std::cout << "\n" << LIGHT_RED
+                        << userNormalForceStr << " is "
+                        << "not a valid number. "
+                        << "Please try again." << WHITE;
+                    }
+                    // Break out of the outer infinite while loop.
+                    break;
                 }
             }
-        } catch (std::invalid_argument) {}
-    } 
+        /* Runs if std::stof() cannot convert the user's
+        friction coefficient input into a float. */
+        } catch (std::invalid_argument) {
+            /* Notify the user that they entered an invalid
+            number for the friction coefficient. */
+            std::cout << "\n" << LIGHT_RED << userFrictCoefficientStr
+            << " is not a valid number. Please try again." << WHITE;
+        }
+    }
+    /* Determine the friction result by assigning it
+    to the function with the validated user inputs. */
+    float frictionResult = calculateFriction(
+        userFrictCoefficientFloat, userNormalForceFloat
+    );
+    
+    /* Finally, display the type of friction
+    with information and the resulting value,
+    rounded to two decimal places. */
+    std::cout << "\n" << DARK_GRAY << "The resulting "
+    << FRICTION_INFO[lowercaseUserFrictType] << " is "
+    << std::setprecision(2) << std::setfill('0')
+    << frictionResult << " N." << WHITE;
 }

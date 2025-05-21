@@ -42,4 +42,14 @@ int main() {
     DARK_GRAY = "\033[1;30m",
     WHITE = "\033[0m";
 
+    // Display the greeting message to the user.
+    std::cout << "\n" << LIGHT_GREEN << "Hello, user! This "
+    << "program will calculate the frictional force based on\n"
+    << "the entered static or kinetic coefficient of friction "
+    << "and normal force." << WHITE << "\n\n";
+
+    // Construct an infinite while loop.
+    
+
+
 }
